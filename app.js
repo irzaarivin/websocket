@@ -34,7 +34,7 @@
     const { Sequelize, sequelize, mongoose, mongooseConnection } = require('./src/infrastructure/config/database')
 
     // SOURCE FILE CONFIG
-    const { model, repository, handler, controller, middlewares, helpers, routes } = require('./src/interchange')
+    const { model, repository, handler, controller, middlewares, helpers, routes, socket } = require('./src/interchange')
 
     // MODELS
     const models = await model(Sequelize, sequelize, mongoose)
@@ -47,6 +47,16 @@
 
     // CONTROLLERS
     const controllers = await controller(handlers)
+
+
+    // ======================================================================== //
+    // ======================================================================== //
+
+    
+    // INIT WEBSOCKET
+    const { initSocket, listenToSocketEvents } = require("./src/app/utils/socket");
+    initSocket(server);
+    listenToSocketEvents(socket, controllers);
 
 
     // ======================================================================== //

@@ -1,10 +1,10 @@
 const { Sequelize } = require('sequelize')
 const config = require('./config')
 
-const sequelize = new Sequelize(config.database.database, config.database.username, config.database.password, {
-  host: config.database.host,
-  dialect: config.database.dialect,
-  port: config.database.port,
+const sequelize = new Sequelize(config.development.database, config.development.username, config.development.password, {
+  host: config.development.host,
+  dialect: config.development.dialect,
+  port: config.development.port,
   logging: config.environment === 'development' ? console.log : false,
 });
 

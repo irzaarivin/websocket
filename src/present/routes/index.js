@@ -1,3 +1,4 @@
+const socketRoutes = require('./socket-route');
 const userRoutes = require('./user-route');
 
 const routes = async (app, controllers, middlewares) => {
@@ -10,4 +11,10 @@ const routes = async (app, controllers, middlewares) => {
   return app;
 };
 
-module.exports = routes;
+const socket = async (socket, io, controllers) => {
+  const { socketController } = await controllers
+
+  await socketRoutes(socket, io, socketController)
+};
+
+module.exports = { routes, socket };

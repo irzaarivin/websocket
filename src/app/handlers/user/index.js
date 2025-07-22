@@ -1,4 +1,4 @@
-// ITEMS HANDLERS
+// USER HANDLERS
 const createUser = require('./create')
 const getUsers = require('./get')
 const getUserById = require('./get-by-id')
