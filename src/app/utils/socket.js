@@ -35,6 +35,7 @@ const listenToSocketEvents = (routes, controllers) => {
 const emitSocketEvent = (eventName, payload, to = null) => {
   const io = getIO();
   if (to) {
+    console.log("sending to " + to)
     io.to(to).emit(eventName, payload);
   } else {
     io.emit(eventName, payload);

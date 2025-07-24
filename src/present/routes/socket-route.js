@@ -1,8 +1,9 @@
 module.exports = async (socket, io, socketController) => {
-  socket.on("user:login", async (payload) => await socketController.show(socket, io, payload));
+  const { show } = socketController
+
+  socket.on("user:login", async (payload) => await show(socket, io, payload));
 
   // socket.on("user:login", async (payload) => {
-  //   console.log(payload)
   //   try {
   //     const result = await usersController.login(payload);
   //     socket.emit("user:login:success", result);

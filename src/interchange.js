@@ -3,7 +3,8 @@ const { routes, socket } = require('./present/routes/index')
 // ======================================================================== //
 
 const middlewares = {
-    ErrorHandler: require('./present/middlewares/ErrorHandler')
+    ErrorHandler: require('./present/middlewares/ErrorHandler'),
+    AuthChecker: require('./present/middlewares/AuthChecker')
 }
 
 const helpers = {
@@ -32,13 +33,15 @@ const repository = async (models) => {
 
 // ======================================================================== //
 
-const handler = async (repositories, helpers) => {
+const handler = async (repositories, helpers, emitSocketEvent) => {
     const users = require('./app/handlers/user/index')
     const socket = require('./app/handlers/socket/index')
+    const auth = require('./app/handlers/auth/index')
 
     return {
-        user: await users(repositories, helpers),
-        socket: await socket(repositories, helpers)
+        user: await users(repositories, helpers, emitSocketEvent),
+        socket: await socket(repositories, helpers, emitSocketEvent),
+        auth: await auth(repositories, helpers, emitSocketEvent),
     }
 }
 
@@ -47,10 +50,12 @@ const handler = async (repositories, helpers) => {
 const controller = async (handlers) => {
     const usersController = require('./present/controllers/usersController')
     const socketController = require('./present/controllers/socketController')
+    const authController = require('./present/controllers/authController')
 
     return {
         usersController: await usersController(await handlers.user),
         socketController: await socketController(await handlers.socket),
+        authController: await authController(await handlers.auth),
     }
 }
 

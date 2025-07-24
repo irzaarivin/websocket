@@ -1,6 +1,6 @@
 const { Op } = require('sequelize')
 
-module.exports = async ({User}) => {
+module.exports = async ({ User }) => {
     return {
         getUsers: async (params) => {
             try {
@@ -30,10 +30,10 @@ module.exports = async ({User}) => {
             }
         },
 
-        getOneUser: async (id) => {
+        getOneUser: async (param) => {
             try {
                 const user = await User.findOne({
-                    where: { id }
+                    where: param
                 });
                 return user;
             } catch (error) {

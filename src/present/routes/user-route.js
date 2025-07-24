@@ -1,7 +1,9 @@
 const express = require('express')
 const userRoutes = express.Router()
 
-module.exports = async (usersController) => {
+module.exports = async (usersController, AuthChecker) => {
+    userRoutes.use(AuthChecker)
+
     userRoutes.post('/', usersController.create)
     userRoutes.get('/', usersController.get)
     userRoutes.get('/find', usersController.getById)

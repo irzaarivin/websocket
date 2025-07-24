@@ -1,6 +1,7 @@
-const console = async (repositories, helpers, params) => {
-   await console.log(params)
-   return "AMBA"
+const consolel = async (repositories, helpers, emitSocketEvent, data) => {
+   // console.log(emitSocketEvent)
+   emitSocketEvent('user:login', data, data.userId)
+   // console.log(data)
 }
 
-module.exports = console
+module.exports = consolel

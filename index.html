@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Key Socket.IO Client</title>
+  <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input { margin: 5px 0; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Socket.IO Client - Multi-Key Listener</h2>
+
+  <button id="connectBtn">Connect to WebSocket</button><br><br>
+
+  <label>Add key to listen:</label><br>
+  <input type="text" id="keyInput" placeholder="Enter key">
+  <button id="addKeyBtn">Add Listener</button><br><br>
+
+  <label>Send message:</label><br>
+  <input type="text" id="sendKeyInput" placeholder="Key to send to">
+  <input type="text" id="messageInput" placeholder="Message">
+  <button id="sendBtn">Send</button>
+
+  <h3>Listening to Keys:</h3>
+  <ul id="listeningKeys"></ul>
+
+  <h3>Received Messages:</h3>
+  <ul id="messageList"></ul>
+
+  <script>
+    let socket;
+    const activeKeys = new Set();
+
+    document.getElementById('connectBtn').addEventListener('click', () => {
+      socket = io('http://192.168.101.231:3000');
+
+      socket.on('connect', () => {
+        console.log('Connected to server');
+        alert('Connected to server!');
+      });
+    });
+
+    document.getElementById('addKeyBtn').addEventListener('click', () => {
+      const key = document.getElementById('keyInput').value.trim();
+      if (!key || activeKeys.has(key)) return;
+
+      activeKeys.add(key);
+
+      // Display key in list
+      const li = document.createElement('li');
+      li.textContent = key;
+      document.getElementById('listeningKeys').appendChild(li);
+
+      // Listen to this key
+      socket.on(key, (data) => {
+        const msg = `[${key}]: ${data}`;
+        const li = document.createElement('li');
+        li.textContent = msg;
+        document.getElementById('messageList').appendChild(li);
+      });
+    });
+
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const key = document.getElementById('sendKeyInput').value.trim();
+      const msg = document.getElementById('messageInput').value.trim();
+
+      if (!socket || !key || !msg) {
+        alert('Make sure you are connected and all fields are filled.');
+        return;
+      }
+
+      socket.emit(key, msg);
+    });
+  </script>
+</body>
+</html>

@@ -1,12 +1,15 @@
 const socketRoutes = require('./socket-route');
 const userRoutes = require('./user-route');
+const authRoutes = require('./auth-route')
 
 const routes = async (app, controllers, middlewares) => {
-  const { usersController } = await controllers
-
-  app.use('/user', await userRoutes(usersController));
+  const { usersController, authController } = await controllers
+  const { ErrorHandler, AuthChecker } = middlewares
   
-  app.use(middlewares.ErrorHandler)
+  app.use(ErrorHandler)
+
+  app.use('/user', await userRoutes(usersController, AuthChecker));
+  app.use('/auth', await authRoutes(authController));
 
   return app;
 };
