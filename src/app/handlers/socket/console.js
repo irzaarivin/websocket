@@ -1,7 +1,5 @@
-const consolel = async (repositories, helpers, emitSocketEvent, data) => {
-   // console.log(emitSocketEvent)
-   emitSocketEvent('user:login', data, data.userId)
-   // console.log(data)
+const console = async (repositories, helpers, emitSocketEvent, data) => {
+   await emitSocketEvent('user:login', data, data.userId)
 }
 
-module.exports = consolel
+module.exports = console

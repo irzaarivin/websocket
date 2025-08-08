@@ -6,7 +6,7 @@ const routes = async (app, controllers, middlewares) => {
   const { usersController, authController } = await controllers
   const { ErrorHandler, AuthChecker } = middlewares
   
-  app.use(ErrorHandler)
+  app.use(await ErrorHandler)
 
   app.use('/user', await userRoutes(usersController, AuthChecker));
   app.use('/auth', await authRoutes(authController));

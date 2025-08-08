@@ -18,8 +18,12 @@ const getIO = () => {
   return ioInstance;
 }
 
-const listenToSocketEvents = (routes, controllers) => {
+const listenToSocketEvents = (routes, controllers, middlewares) => {
+  const { SocketChecker } = middlewares
+
   if (!ioInstance) throw new Error("Socket.IO belum diinisialisasi");
+
+  ioInstance.use(SocketChecker);
   
   ioInstance.on("connection", async (socket) => {
     console.log(`🟢 Client connected: ${socket.id}`);

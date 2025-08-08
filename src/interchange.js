@@ -4,7 +4,8 @@ const { routes, socket } = require('./present/routes/index')
 
 const middlewares = {
     ErrorHandler: require('./present/middlewares/ErrorHandler'),
-    AuthChecker: require('./present/middlewares/AuthChecker')
+    AuthChecker: require('./present/middlewares/AuthChecker'),
+    SocketChecker: require('./present/middlewares/SocketAuth')
 }
 
 const helpers = {
@@ -54,7 +55,7 @@ const controller = async (handlers) => {
 
     return {
         usersController: await usersController(await handlers.user),
-        socketController: await socketController(await handlers.socket),
+        socketController: await socketController(await handlers),
         authController: await authController(await handlers.auth),
     }
 }
